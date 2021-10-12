@@ -112,3 +112,7 @@ curl -X PUT
 -H 'Content-Type: application/json'
 /v1/clouds/aws/regions/us-west-2/cidrs
 ```
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.

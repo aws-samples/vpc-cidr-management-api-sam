@@ -1,3 +1,6 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
 # pylint: disable=duplicate-code
 """Lambda function to return available CIDR blocks"""
 import os
