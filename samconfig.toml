@@ -1,0 +1,11 @@
+version = 0.1
+
+[default.global.parameters]
+stack_name = "cidr-api-sam-cli"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket"
+s3_prefix = "cidr-api-sam-cli"
+region = "us-west-1"
+profile = "default"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

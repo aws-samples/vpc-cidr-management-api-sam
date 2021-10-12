@@ -1,0 +1,22 @@
+{
+   "DEPLOYMENT": {
+      "ACCOUNT": "itx-aba",
+      "ACCOUNT_NUMBER": "295185192289",
+      "VPC_ENDPOINT": "vpce-0417f07562a900baf",
+      "SUBNETS": [
+         "subnet-86fb3be7",
+         "subnet-82fb3be3"
+      ],
+      "SECURITY_GROUPS": [
+         "sg-ecc06383",
+         "sg-68c76407"
+      ],
+      "DEPLOYMENT_BUCKET": "itx-aba-lambda-package-us-east-1"
+   },
+   "ENVIRONMENT": {
+      "MSFT_IDP_APP_ID": "https://jnj.onmicrosoft.com/clx-awsapi-account-provisioning-qa",
+      "ROOT_CIDR_BUCKET_NAME": "qa-jnj-root-level-cidr-tracking",
+      "ALLOCATED_CIDR_DDB_TABLE_NAME": "qa-allocated-CIDR-tracking",
+      "CIDR_LOCK_DDB_TABLE_NAME": "qa-CIDR-lock"
+   }
+}

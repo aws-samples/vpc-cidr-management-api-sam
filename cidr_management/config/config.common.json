@@ -1,0 +1,15 @@
+{
+   "ENVIRONMENT": {
+      "LDAP_SERVER": "ldap://nadir.jnj.com:3268",
+      "LDAP_SEARCH_BASE": "DC=jnj,DC=com",
+      "LDAP_OBJECT_CLASS": "person",
+      "LDAP_GROUP_NAME": "ITS-EP-APP-ITxVPCx-ITxAdmins",
+      "LDAP_LOOKUP_ATTRIBUTE": "userPrincipalName",
+      "MSFT_IDP_TENANT_ID": "3ac94b33-9135-4821-9502-eafda6592a35",
+      "MSFT_IDP_CLIENT_ROLES": "writer",
+      "SHARED_LDAP_PASSWORD_SECRET_NAME": "ldap-password",
+      "LDAP_USERNAME": "savchook",
+      "SUBNET_PREFIX_LOW": "16",
+      "SUBNET_PREFIX_HIGH": "27"
+   }
+}
