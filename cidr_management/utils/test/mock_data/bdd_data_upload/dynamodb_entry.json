@@ -1,0 +1,100 @@
+{
+  "entry1": {
+    "cidr-block": "192.168.0.0/19",
+    "region": "us-east-1-bdd",
+    "locked": true,
+    "assigned": false,
+    "cloud": "aws"
+  },
+  "entry2": {
+    "cidr-block": "192.168.32.0/19",
+    "region": "us-east-1-bdd",
+    "locked": true,
+    "assigned": false,
+    "cloud": "aws"
+  },
+  "entry3": {
+    "cidr-block": "192.168.64.0/19",
+    "region": "us-east-1-bdd",
+    "locked": true,
+    "assigned": false,
+    "cloud": "aws"
+  },
+  "entry4": {
+    "cidr-block": "192.168.96.0/19",
+    "region": "us-east-1-bdd",
+    "locked": true,
+    "assigned": true,
+    "cloud": "aws"
+  },
+  "entry5": {
+    "cidr-block": "192.168.128.0/19",
+    "region": "us-east-1-bdd",
+    "locked": true,
+    "assigned": true,
+    "cloud": "aws"
+  },
+  "entry6": {
+    "cidr-block": "192.168.160.0/19",
+    "region": "us-east-1-bdd",
+    "locked": true,
+    "assigned": true,
+    "cloud": "aws"
+  },
+  "entry7": {
+    "cidr-block": "192.168.192.0/19",
+    "region": "us-east-1-bdd",
+    "locked": true,
+    "assigned": true,
+    "cloud": "aws"
+  },
+  "entry8": {
+    "cidr-block": "192.168.224.0/19",
+    "region": "us-east-1-bdd",
+    "locked": false,
+    "assigned": false,
+    "cloud": "aws"
+  },
+  "entry9": {
+    "cidr-block": "192.169.0.0/26",
+    "region": "us-east-2-bdd",
+    "locked": true,
+    "assigned": false,
+    "cloud": "aws"
+  },
+  "entry10": {
+    "cidr-block": "192.169.0.128/26",
+    "region": "us-east-2-bdd",
+    "locked": true,
+    "assigned": false,
+    "cloud": "aws"
+  },
+  "entry11": {
+    "cidr-block": "192.169.0.192/26",
+    "region": "us-east-2-bdd",
+    "locked": true,
+    "assigned": true,
+    "cloud": "aws"
+  },
+  "entry12": {
+    "cidr-block": "192.170.0.0/26",
+    "region": "us-east-2-bdd",
+    "locked": true,
+    "assigned": false,
+    "cloud": "aws"
+  },
+  "entry13": {
+    "cidr-block": "192.170.0.128/26",
+    "region": "us-east-2-bdd",
+    "locked": true,
+    "assigned": false,
+    "cloud": "aws"
+  },
+  "entry14": {
+    "cidr-block": "192.170.0.192/26",
+    "region": "us-east-2-bdd",
+    "locked": true,
+    "assigned": true,
+    "cloud": "aws"
+  }
+}

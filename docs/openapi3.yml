@@ -1,0 +1,173 @@
+openapi: 3.0.0
+info:
+  description: >-
+    This is the swagger document for the CIDR management API. The
+    functions this API enables includes allocating & locking a CIDR, assigning
+    an allocated CIDR, and listing CIDRs that are in allocated/unallocated state in a
+    given region.
+  version: 1.0.0-oas3
+  title: CIDR Management API
+  contact:
+    email: 'xyz@xyz.com'
+tags:
+  - name: RETURN_ALL_ALLOCATED_CIDR
+    description: ' Queries CIDR API State table and returns allocated CIDRs according to flag values '
+  - name: GET_AVAILABLE_CIDR_AND_LOCK
+    description: ' Calculates an available CIDR using region and requested CIDR size, and reserves CIDR '
+  - name: ASSIGN_CIDR
+    description: >-
+      Updates assigned & locked value flag values for an existing allocated CIDR
+      according to input values
+paths:
+  /v1/clouds/{cloud}/regions/{region}/cidrs:
+    get:
+      tags:
+        - RETURN_ALL_ALLOCATED_CIDR
+      summary: Return allocated / unallocated CIDR block(s) based on provided flags
+      description: ''
+      operationId: return-cidr
+      parameters:
+        - in: path
+          name: cloud
+          description: Cloud provider value
+          required: true
+          schema:
+            type: string
+            enum:
+              - aws
+            default: aws
+        - in: path
+          name: region
+          description: Region for which parameters are requested
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: assigned
+          description: Value for assigned flag, used to filter results
+          required: false
+          schema:
+            type: boolean
+        - in: query
+          name: locked
+          description: Value for locked flag, used to filter results
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Invalid CIDR Size / Invalid Cloud  / Cannot assign unlocked CIDRs.
+        '401':
+          description: Invalid User.
+        '404':
+          description: >-
+            No root CIDR list found for the specified region. / No CIDR blocks
+            of appropriate size found.
+  /v1/clouds/{cloud}/regions/{region}/cidr:
+    post:
+      tags:
+        - GET_AVAILABLE_CIDR_AND_LOCK
+      summary: Reserve CIDR block based on provided size and region
+      description: ''
+      operationId: reserve-cidr
+      parameters:
+        - in: path
+          name: cloud
+          description: Cloud provider value
+          required: true
+          schema:
+            type: string
+            enum:
+              - aws
+            default: aws
+        - in: path
+          name: region
+          description: Region for which parameters are requested
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReserveCIDR'
+        description: Identifier for account to which CIDR will be assigned
+        required: true
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Invalid CIDR Size / Invalid Cloud  / Cannot assign unlocked CIDRs.
+        '401':
+          description: Invalid User.
+        '404':
+          description: >-
+            No root CIDR list found for the specified region. / No CIDR blocks
+            of appropriate size found.
+  /v1/clouds/{cloud}/regions/{region}/cidrs/{cidr}:
+    put:
+      tags:
+        - ASSIGN_CIDR
+      summary: Update flag values for existing allocated CIDR
+      description: ''
+      operationId: assign-cidr
+      parameters:
+        - in: path
+          name: cloud
+          description: Cloud provider value
+          required: true
+          schema:
+            type: string
+            enum:
+              - aws
+            default: aws
+        - in: path
+          name: cidr
+          description: CIDR block for which flags need to be updated
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: region
+          description: Region for which parameters are requested
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignCIDR'
+        description: Identifier for account to which CIDR will be assigned
+        required: true
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Invalid CIDR Size / Invalid Cloud  / Cannot assign unlocked CIDRs.
+        '401':
+          description: Invalid User.
+        '404':
+          description: >-
+            No root CIDR list found for the specified region. / No CIDR blocks
+            of appropriate size found.
+servers:
+  - url: http://vpcx.apigw.amazonaws.com/
+components:
+  schemas:
+    ReserveCIDR:
+      type: object
+      properties:
+        account_alias:
+          type: string
+        size:
+          type: string
+    AssignCIDR:
+      type: object
+      properties:
+        assigned:
+          type: boolean
+        locked:
+          type: boolean

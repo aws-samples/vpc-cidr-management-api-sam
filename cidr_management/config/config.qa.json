@@ -1,0 +1,6 @@
+{
+   "ENVIRONMENT": {
+      "ALLOCATED_CIDR_DDB_TABLE_NAME": "qa-allocated-CIDR-tracking",
+      "CIDR_LOCK_DDB_TABLE_NAME": "qa-CIDR-lock"
+   }
+}

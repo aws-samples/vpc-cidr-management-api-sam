@@ -1,0 +1,6 @@
+{
+   "ENVIRONMENT": {
+      "SUBNET_PREFIX_LOW": "16",
+      "SUBNET_PREFIX_HIGH": "27"
+   }
+}

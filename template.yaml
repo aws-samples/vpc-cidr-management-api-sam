@@ -1,0 +1,117 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  cidr_mgmt_service
+  Sample SAM Template for cidr_mgmt_service
+Globals:
+  Function:
+    Timeout: 3
+    Environment:
+      Variables:
+        ALLOCATED_CIDR_DDB_TABLE_NAME: 'AllocatedCidrTracking'
+
+Resources:
+  CidrMgmtLambdaRole1:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: allow-dynamodb-write
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Action: dynamodb:*
+                Resource: "*"
+                Effect: Allow
+        - PolicyName: allow-ssm-read-write
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Action: ssm:*
+                Resource: "*"
+                Effect: Allow
+
+  CIDRManagementReturnAvailable:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: cidr_management/
+      Handler: return_all_available.handler
+      Runtime: python3.8
+      Role: !GetAtt CidrMgmtLambdaRole1.Arn
+      Events:
+        HttpGet:
+          Type: Api
+          Properties:
+            Path: /v1/clouds/{cloud}/regions/{region}/cidrs
+            Method: get
+
+  CIDRManagementReserve:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: cidr_management/
+      Handler: get_available_cidr_and_lock.handler
+      Runtime: python3.8
+      Role: !GetAtt CidrMgmtLambdaRole1.Arn
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: /v1/clouds/{cloud}/regions/{region}/cidrs
+            Method: post
+
+  CIDRManagementFlag:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: cidr_management/
+      Handler: assign_cidr.handler
+      Runtime: python3.8
+      Role: !GetAtt CidrMgmtLambdaRole1.Arn
+      Events:
+        HttpPut:
+          Type: Api
+          Properties:
+            Path: /v1/clouds/{cloud}/regions/{region}/cidrs/{cidr}
+            Method: put
+
+  AllocatedCidrTracking:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: 'AllocatedCidrTracking'
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: cidr_block
+          AttributeType: S
+      KeySchema:
+        - AttributeName: cidr_block
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 10
+        WriteCapacityUnits: 10
+      TimeToLiveSpecification:
+        AttributeName: lock_expiration
+        Enabled: true
+
+Outputs:
+  CidrFunction1:
+    Description: "CIDRManagementReturnAvailable Lambda Function ARN"
+    Value: !GetAtt CIDRManagementReturnAvailable.Arn
+  CidrFunction2:
+    Description: "CIDRManagementReserve Lambda Function ARN"
+    Value: !GetAtt CIDRManagementReserve.Arn
+  CidrFunction3:
+    Description: "CIDRManagementFlag Lambda Function ARN"
+    Value: !GetAtt CIDRManagementFlag.Arn
+  ServiceEndpoint:
+    Description: "API Gateway endpoint URL for CIDRManagement API"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com"
